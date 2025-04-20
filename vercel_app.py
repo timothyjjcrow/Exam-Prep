@@ -1,14 +1,27 @@
-from flask import Flask, render_template, request, jsonify, Blueprint
+from flask import Flask, render_template, request, jsonify, Blueprint, send_from_directory
 from models import db, StateInfo, NECArticle, TheoryTopic, CalculationTutorial, PracticeQuestion
 from markupsafe import Markup
 import random
+import os
+import tempfile
 
 def create_app():
     # Initialize Flask app
     app = Flask(__name__)
     
-    # Load configuration
-    app.config.from_object('config')
+    # Special configuration for Vercel environment
+    if os.environ.get('VERCEL'):
+        # Use in-memory SQLite for Vercel
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+        app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'vercel-deployment-key')
+        
+        # Serve static files correctly in Vercel
+        @app.route('/static/<path:path>')
+        def serve_static(path):
+            return send_from_directory('static', path)
+    else:
+        # Local configuration
+        app.config.from_object('config')
     
     # Initialize database with app
     db.init_app(app)
@@ -162,6 +175,7 @@ def create_app():
 
     return app
 
+# For local development
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True, port=5004) 
+    app.run(debug=True, port=5005) 
