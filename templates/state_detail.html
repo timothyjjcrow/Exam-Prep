@@ -1,0 +1,69 @@
+{% extends "base.html" %} {% block title %}{{ state.state_name }} Licensing
+Information - Circuit Breaker{% endblock %} {% block content %}
+<div class="state-detail-container">
+  <div class="state-header">
+    <h2>{{ state.state_name }} Electrician Licensing</h2>
+    <a href="{{ url_for('states_list') }}" class="back-link"
+      >← Back to States List</a
+    >
+  </div>
+
+  <div class="state-info-sections">
+    {% if state.license_types %}
+    <div class="info-section">
+      <h3>License Types</h3>
+      <div class="info-content">{{ state.license_types|nl2br|safe }}</div>
+    </div>
+    {% endif %} {% if state.experience_reqs %}
+    <div class="info-section">
+      <h3>Experience Requirements</h3>
+      <div class="info-content">{{ state.experience_reqs|nl2br|safe }}</div>
+    </div>
+    {% endif %} {% if state.tested_nec_version %}
+    <div class="info-section">
+      <h3>Tested NEC Version</h3>
+      <div class="info-content">{{ state.tested_nec_version }}</div>
+    </div>
+    {% endif %} {% if state.exam_details %}
+    <div class="info-section">
+      <h3>Exam Details</h3>
+      <div class="info-content">{{ state.exam_details|nl2br|safe }}</div>
+    </div>
+    {% endif %}
+
+    <div class="info-section links-section">
+      <h3>Official Links</h3>
+      <div class="info-content">
+        <ul class="resource-links">
+          {% if state.application_info_link %}
+          <li>
+            <strong>Application Information:</strong>
+            <a
+              href="{{ state.application_info_link }}"
+              target="_blank"
+              rel="noopener"
+              >{{ state.application_info_link }}</a
+            >
+          </li>
+          {% endif %} {% if state.official_board_link %}
+          <li>
+            <strong>Official Licensing Board:</strong>
+            <a
+              href="{{ state.official_board_link }}"
+              target="_blank"
+              rel="noopener"
+              >{{ state.official_board_link }}</a
+            >
+          </li>
+          {% endif %}
+        </ul>
+
+        {% if not state.application_info_link and not state.official_board_link
+        %}
+        <p class="no-links">No official links provided.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

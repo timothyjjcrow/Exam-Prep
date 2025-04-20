@@ -1,0 +1,27 @@
+{% extends "vercel_base.html" %} {% block title %}Practice Quizzes - Circuit
+Breaker{% endblock %} {% block content %}
+<h2>Practice Quizzes</h2>
+
+{% if error_message %}
+<div class="alert alert-error">{{ error_message }}</div>
+{% endif %}
+
+<p>Select a topic to begin a practice quiz:</p>
+
+<div class="topic-list">
+  {% for topic in topics %}
+  <a
+    href="{{ url_for('quiz_interface', topic_name=topic) }}"
+    class="topic-button"
+    >{{ topic }}</a
+  >
+  {% endfor %}
+</div>
+
+<div class="notice-box">
+  <p>
+    <strong>Note:</strong> This is a read-only version of the site. Your quiz
+    results will not be saved between sessions.
+  </p>
+</div>
+{% endblock %}

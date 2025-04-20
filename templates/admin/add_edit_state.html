@@ -1,0 +1,103 @@
+{% extends "base.html" %} {% block title %} {% if is_edit %}Edit State{% else
+%}Add State{% endif %} - Circuit Breaker {% endblock %} {% block content %}
+<div class="form-container admin-form">
+  <h2>
+    {% if is_edit %}Edit State: {{ state.state_name }}{% else %}Add New State{%
+    endif %}
+  </h2>
+
+  <form
+    method="POST"
+    action="{% if is_edit %}{{ url_for('admin.edit_state', state_id=state.id) }}{% else %}{{ url_for('admin.add_state') }}{% endif %}"
+  >
+    <div class="form-group">
+      <label for="state_name">State Name*</label>
+      <input
+        type="text"
+        id="state_name"
+        name="state_name"
+        required
+        value="{% if is_edit %}{{ state.state_name }}{% endif %}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="license_types">License Types</label>
+      <textarea
+        id="license_types"
+        name="license_types"
+        rows="3"
+        placeholder="e.g., Journeyman, Master, Contractor (comma-separated)"
+      >
+{% if is_edit %}{{ state.license_types }}{% endif %}</textarea
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="experience_reqs">Experience Requirements</label>
+      <textarea
+        id="experience_reqs"
+        name="experience_reqs"
+        rows="5"
+        placeholder="Detail the experience requirements for each license type"
+      >
+{% if is_edit %}{{ state.experience_reqs }}{% endif %}</textarea
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="application_info_link">Application Info Link</label>
+      <input
+        type="url"
+        id="application_info_link"
+        name="application_info_link"
+        placeholder="https://..."
+        value="{% if is_edit %}{{ state.application_info_link }}{% endif %}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="tested_nec_version">Tested NEC Version</label>
+      <input
+        type="text"
+        id="tested_nec_version"
+        name="tested_nec_version"
+        placeholder="e.g., 2020, 2017"
+        value="{% if is_edit %}{{ state.tested_nec_version }}{% endif %}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="exam_details">Exam Details</label>
+      <textarea
+        id="exam_details"
+        name="exam_details"
+        rows="4"
+        placeholder="e.g., 80 questions, 4 hours, 70% passing score"
+      >
+{% if is_edit %}{{ state.exam_details }}{% endif %}</textarea
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="official_board_link">Official Board Link</label>
+      <input
+        type="url"
+        id="official_board_link"
+        name="official_board_link"
+        placeholder="https://..."
+        value="{% if is_edit %}{{ state.official_board_link }}{% endif %}"
+      />
+    </div>
+
+    <div class="form-group button-group">
+      <button type="submit" class="button primary">
+        {% if is_edit %}Update State{% else %}Add State{% endif %}
+      </button>
+      <a href="{{ url_for('admin.dashboard') }}" class="button secondary"
+        >Cancel</a
+      >
+    </div>
+  </form>
+</div>
+{% endblock %}

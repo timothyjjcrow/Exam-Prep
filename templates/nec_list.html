@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %}NEC Articles - Circuit Breaker{%
+endblock %} {% block content %}
+<div class="content-container">
+  <h2>NEC Articles</h2>
+  <p class="intro-text">
+    Browse National Electrical Code (NEC) articles and explanations to help you
+    prepare for your licensing exam.
+  </p>
+
+  {% if articles %}
+  <div class="articles-list">
+    {% for article in articles %}
+    <div class="article-item">
+      <a
+        href="{{ url_for('nec_article_detail', article_id=article.id) }}"
+        class="article-link"
+      >
+        <span class="article-number">Article {{ article.article_number }}</span>
+        <span class="article-title">{{ article.title }}</span>
+      </a>
+      {% if article.summary %}
+      <p class="article-summary">{{ article.summary|truncate(150) }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-data">No NEC articles are available yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

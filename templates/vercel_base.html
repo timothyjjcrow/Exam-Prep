@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Circuit Breaker{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    {% block extra_head %}{% endblock %}
+    <!-- MathJax for rendering LaTeX equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Circuit Breaker: Your Path to Licensure</h1>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('home') }}" {% if request.path == url_for('home') %}class="active"{% endif %}>Home</a></li>
+            <li><a href="{{ url_for('states_list') }}" {% if request.path.startswith('/states') %}class="active"{% endif %}>State Requirements</a></li>
+            <li><a href="{{ url_for('nec_articles_list') }}" {% if request.path.startswith('/nec_articles') %}class="active"{% endif %}>NEC Articles</a></li>
+            <li><a href="{{ url_for('theory_list') }}" {% if request.path.startswith('/theory') %}class="active"{% endif %}>Electrical Theory</a></li>
+            <li><a href="{{ url_for('calculations_list') }}" {% if request.path.startswith('/calculations') %}class="active"{% endif %}>Calculations</a></li>
+            <li><a href="{{ url_for('quiz_launcher') }}" {% if request.path.startswith('/quiz') %}class="active"{% endif %}>Practice Quizzes</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2023 Circuit Breaker | Electrical Licensing Exam Preparation</p>
+        <p><small>This is a read-only version of the site.</small></p>
+      </div>
+    </footer>
+    
+    {% block scripts %}{% endblock %}
+  </body>
+</html> 

@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %}Quiz: {{ topic }} - Circuit Breaker{%
+endblock %} {% block content %}
+<div class="quiz-interface-container">
+  <h2>Practice Quiz: {{ topic }}</h2>
+
+  <div id="quiz-container">
+    <div id="progress-indicator">Question 1 of {{ questions|length }}</div>
+
+    <div id="question-area">
+      <p id="question-text"></p>
+
+      <div class="options-container">
+        <div class="option">
+          <input type="radio" name="option" id="option-a" value="A" />
+          <label for="option-a" id="label-option-a"></label>
+        </div>
+        <div class="option">
+          <input type="radio" name="option" id="option-b" value="B" />
+          <label for="option-b" id="label-option-b"></label>
+        </div>
+        <div class="option">
+          <input type="radio" name="option" id="option-c" value="C" />
+          <label for="option-c" id="label-option-c"></label>
+        </div>
+        <div class="option">
+          <input type="radio" name="option" id="option-d" value="D" />
+          <label for="option-d" id="label-option-d"></label>
+        </div>
+      </div>
+
+      <button id="submit-button" disabled>Submit Answer</button>
+    </div>
+
+    <div id="feedback-area" class="hidden"></div>
+
+    <div id="score-area" class="hidden"></div>
+  </div>
+
+  <a href="{{ url_for('quiz_launcher') }}" class="back-link"
+    >Back to Quiz Topics</a
+  >
+</div>
+
+<script>
+  // Pass questions data from the server to JavaScript
+  const quizQuestions = {{ questions|tojson|safe }};
+  const quizTopic = "{{ topic }}";
+  const submitQuizUrl = "{{ url_for('submit_quiz', topic_name=topic) }}";
+  const isLoggedIn = {% if current_user.is_authenticated %}true{% else %}false{% endif %};
+</script>
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock %}

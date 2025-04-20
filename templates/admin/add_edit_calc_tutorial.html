@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block title %} {% if is_edit %}Edit Calculation
+Tutorial{% else %}Add Calculation Tutorial{% endif %} - Circuit Breaker {%
+endblock %} {% block content %}
+<div class="form-container admin-form">
+  <h2>
+    {% if is_edit %}Edit Calculation Tutorial{% else %}Add New Calculation
+    Tutorial{% endif %}
+  </h2>
+
+  <form
+    method="POST"
+    action="{% if is_edit %}{{ url_for('admin.edit_calc_tutorial', tutorial_id=tutorial.id) }}{% else %}{{ url_for('admin.add_calc_tutorial') }}{% endif %}"
+  >
+    <div class="form-group">
+      <label for="title">Title*</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        required
+        placeholder="e.g., Conduit Fill Calculation"
+        value="{% if is_edit %}{{ tutorial.title }}{% endif %}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="related_nec_articles">Related NEC Articles</label>
+      <input
+        type="text"
+        id="related_nec_articles"
+        name="related_nec_articles"
+        placeholder="e.g., Chapter 9, Table 1"
+        value="{% if is_edit %}{{ tutorial.related_nec_articles }}{% endif %}"
+      />
+      <p class="field-help">Optional references to related NEC articles.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content*</label>
+      <textarea
+        id="content"
+        name="content"
+        rows="15"
+        required
+        placeholder="Include steps, formulas, examples, etc."
+      >
+{% if is_edit %}{{ tutorial.content }}{% endif %}</textarea
+      >
+      <p class="field-help">
+        You can use basic HTML tags or Markdown formatting.
+      </p>
+    </div>
+
+    <div class="form-group button-group">
+      <button type="submit" class="button primary">
+        {% if is_edit %}Update Tutorial{% else %}Add Tutorial{% endif %}
+      </button>
+      <a href="{{ url_for('admin.calc_tutorials') }}" class="button secondary"
+        >Cancel</a
+      >
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block title %}Profile - Circuit Breaker{% endblock
+%} {% block content %}
+<div class="profile-container">
+  <h2>Your Profile</h2>
+  <div class="profile-info">
+    <p><strong>Username:</strong> {{ current_user.username }}</p>
+    <p><strong>Email:</strong> {{ current_user.email }}</p>
+  </div>
+</div>
+{% endblock %}

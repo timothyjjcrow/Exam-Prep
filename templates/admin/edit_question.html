@@ -1,0 +1,99 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block title %}Edit Practice Question{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Edit Practice Question</h1>
+        <a href="{{ url_for('admin.questions') }}" class="btn-back">← Back to Questions</a>
+    </div>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="form-container">
+        <form method="post" class="admin-form">
+            <div class="form-group">
+                <label for="question_text">Question Text</label>
+                <textarea name="question_text" id="question_text" rows="4" required>{{ question.question_text }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="topic">Topic</label>
+                <select name="topic" id="topic" required>
+                    <option value="">Select a Topic</option>
+                    {% for topic in topics %}
+                        <option value="{{ topic }}" {% if question.topic == topic %}selected{% endif %}>{{ topic }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="options-container">
+                <h3>Answer Options</h3>
+                <div class="form-group">
+                    <label for="option_a">Option A</label>
+                    <textarea name="option_a" id="option_a" rows="2" required>{{ question.option_a }}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="option_b">Option B</label>
+                    <textarea name="option_b" id="option_b" rows="2" required>{{ question.option_b }}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="option_c">Option C</label>
+                    <textarea name="option_c" id="option_c" rows="2" required>{{ question.option_c }}</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="option_d">Option D</label>
+                    <textarea name="option_d" id="option_d" rows="2" required>{{ question.option_d }}</textarea>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="correct_answer">Correct Answer</label>
+                <select name="correct_answer" id="correct_answer" required>
+                    <option value="">Select Correct Answer</option>
+                    <option value="A" {% if question.correct_answer == 'A' %}selected{% endif %}>A</option>
+                    <option value="B" {% if question.correct_answer == 'B' %}selected{% endif %}>B</option>
+                    <option value="C" {% if question.correct_answer == 'C' %}selected{% endif %}>C</option>
+                    <option value="D" {% if question.correct_answer == 'D' %}selected{% endif %}>D</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="explanation">Explanation</label>
+                <textarea name="explanation" id="explanation" rows="4" required>{{ question.explanation }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="nec_reference">NEC Reference</label>
+                <input type="text" name="nec_reference" id="nec_reference" value="{{ question.nec_reference }}">
+                <small>Format: Article XXX.XX (e.g., "Article 250.24")</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="difficulty">Difficulty Level</label>
+                <select name="difficulty" id="difficulty" required>
+                    <option value="">Select Difficulty</option>
+                    <option value="Easy" {% if question.difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+                    <option value="Medium" {% if question.difficulty == 'Medium' %}selected{% endif %}>Medium</option>
+                    <option value="Hard" {% if question.difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Update Question</button>
+                <a href="{{ url_for('admin.questions') }}" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

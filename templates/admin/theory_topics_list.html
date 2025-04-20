@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block title %}Electrical Theory Topics - Admin -
+Circuit Breaker{% endblock %} {% block content %}
+<div class="admin-dashboard">
+  <h2>Electrical Theory Topics Management</h2>
+  <div class="admin-header">
+    <a href="{{ url_for('admin.dashboard') }}" class="back-link"
+      >← Back to Dashboard</a
+    >
+    <a href="{{ url_for('admin.add_theory_topic') }}" class="button primary"
+      >Add New Topic</a
+    >
+  </div>
+
+  <div class="content-table-container">
+    <h3>Theory Topics</h3>
+    {% if topics %}
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for topic in topics %}
+        <tr>
+          <td>{{ topic.title }}</td>
+          <td>{{ topic.category|default('Uncategorized', true) }}</td>
+          <td class="actions">
+            <a
+              href="{{ url_for('admin.edit_theory_topic', topic_id=topic.id) }}"
+              class="button small"
+              >Edit</a
+            >
+            <form
+              action="{{ url_for('admin.delete_theory_topic', topic_id=topic.id) }}"
+              method="POST"
+              class="inline-form"
+            >
+              <button
+                type="submit"
+                class="button small danger"
+                onclick="return confirm('Are you sure you want to delete this topic?')"
+              >
+                Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">No theory topics have been added yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

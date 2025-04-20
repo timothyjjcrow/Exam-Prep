@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}{{ article.title }} - NEC Articles -
+Circuit Breaker{% endblock %} {% block content %}
+<div class="content-detail-container">
+  <div class="content-header">
+    <a href="{{ url_for('nec_articles_list') }}" class="back-link"
+      >← Back to NEC Articles</a
+    >
+    <div class="article-info">
+      <span class="article-number">Article {{ article.article_number }}</span>
+    </div>
+  </div>
+
+  <h2 class="content-title">{{ article.title }}</h2>
+
+  {% if article.summary %}
+  <div class="content-summary">
+    <h3>Summary</h3>
+    <div class="summary-text">{{ article.summary }}</div>
+  </div>
+  {% endif %}
+
+  <div class="content-main">
+    <h3>Article Content</h3>
+    <div class="content-text">{{ article.content|safe }}</div>
+  </div>
+</div>
+{% endblock %}

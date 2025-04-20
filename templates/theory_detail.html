@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}{{ topic.title }} - Electrical Theory
+- Circuit Breaker{% endblock %} {% block content %}
+<div class="content-detail-container">
+  <div class="content-header">
+    <a href="{{ url_for('theory_list') }}" class="back-link"
+      >← Back to Electrical Theory</a
+    >
+    {% if topic.category %}
+    <div class="topic-info">
+      <span class="topic-category">{{ topic.category }}</span>
+    </div>
+    {% endif %}
+  </div>
+
+  <h2 class="content-title">{{ topic.title }}</h2>
+
+  <div class="content-main">
+    <div class="content-text">{{ topic.content|safe }}</div>
+  </div>
+</div>
+{% endblock %}

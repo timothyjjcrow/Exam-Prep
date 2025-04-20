@@ -1,0 +1,59 @@
+import sys
+import os
+
+# Import directly from app
+from app import create_app, db
+from models import NECArticle
+
+def update_nec_article():
+    """Update or add NEC article 702 to the database."""
+    # Article data
+    article_data = {
+        "article_number": "702",
+        "title": "Optional Standby Systems",
+        "summary": "Article 702 covers the installation and operation of optional standby systems, which provide an alternate source of electric power to serve loads in the event of failure of the normal supply. These systems are generally installed to prevent disruption of business or to maintain building functions, rather than for safety reasons.",
+        "content": """<h3>Scope and Purpose</h3><p>Article 702 covers the installation and operation of optional standby systems. Unlike emergency systems (Article 700) or legally required standby systems (Article 701), optional standby systems are not required by codes or governmental agencies. Instead, they are installed at the discretion of the property owner to provide an alternate source of electric power during interruption of the normal power source.</p><p>Common applications for optional standby systems include:</p><ul><li>Residential backup power (to maintain comfort, prevent food spoilage, etc.)</li><li>Business operations that want to avoid disruption during power outages</li><li>Data centers and computer operations</li><li>Agricultural operations</li><li>Telecommunications facilities</li></ul><p>While not critical for life safety, optional standby systems provide significant convenience and can prevent substantial economic losses during power outages.</p><h3>Transfer Equipment</h3><p><strong>Transfer Equipment (702.5):</strong> Transfer equipment must be suitable for the intended use and designed to prevent the inadvertent interconnection of normal and alternate sources of supply. Transfer equipment can be either manual or automatic.</p><p><strong>Signage (702.7):</strong> A sign must be placed at the service entrance equipment indicating the type and location of on-site optional standby power sources. This requirement helps emergency responders and utility personnel identify all sources of power in a building.</p><p><strong>Supply Side Connections (702.5(C)):</strong> If the optional standby system uses the same service equipment as the normal source, the connection must be made sufficiently ahead of any service disconnecting means to ensure proper coordination. This helps prevent the system from compromising the integrity of the service equipment.</p><h3>Capacity and Rating</h3><p><strong>Capacity and Rating (702.4):</strong> Optional standby systems must have adequate capacity for the intended load. The user of the system must determine which loads will be connected to the optional standby supply and what capacity is required.</p><p><strong>Protection Against Hazards (702.8):</strong> If damage to the optional standby power source could result in hazards, additional safeguards may be required, such as:</p><ul><li>Overcurrent protection</li><li>Protective devices for internal faults</li><li>Alarm systems to alert personnel to impending failure</li></ul><p>These protective measures help prevent dangers that might arise from equipment failure during operation.</p><h3>Power Sources</h3><p><strong>Optional Standby Power Sources (702.12):</strong> The power source for optional standby systems can be any of the following:</p><ul><li>Storage batteries (with adequate charging means)</li><li>Generator sets (internal combustion engines, microturbines, or fuel cells)</li><li>Uninterruptible power supplies (UPS)</li><li>Separate service from the utility (when permitted by the utility)</li><li>Connection to a different utility grid (where available)</li><li>Solar photovoltaic systems with appropriate energy storage</li><li>Wind power systems with appropriate energy storage</li></ul><p><strong>Generator Requirements (702.12(B)):</strong> When an engine-driven generator is used as the power source, it must comply with the following requirements:</p><ul><li>It must be of sufficient capacity to handle the intended load</li><li>If automatic starting is provided, appropriate means for starting and stopping based on load need or time must be included</li><li>Where manual starting is provided, it must be easily accessible</li><li>The grounding of portable generators must comply with 250.34</li></ul><p><strong>Portable Generators (702.12(B)(3)):</strong> When portable generators are used, they must be equipped with a disconnecting means and overcurrent protection integral to the generator or adjacent to it. This disconnecting means is not required to be suitable as service equipment.</p><h3>Wiring and Installation</h3><p><strong>Wiring (702.10):</strong> Wiring for optional standby systems is permitted within the same raceways, cables, boxes, and cabinets as other general wiring. Unlike emergency systems or legally required standby systems, optional standby systems do not require separate raceways or special separation from normal power circuits.</p><p><strong>Disconnecting Means (702.12(B)(2)):</strong> For permanently installed generators, a disconnecting means must be provided that is readily accessible and capable of being locked in the open position. For portable generators, a disconnecting means must be provided either integral to the generator or adjacent to it.</p><p><strong>Outdoor Generator Sets (702.12(B)(4)):</strong> Where an outdoor generator set is permanently installed, it must be installed in accordance with the manufacturer's instructions and local regulations. This typically includes:</p><ul><li>Proper clearances from buildings and combustible materials</li><li>Adequate ventilation for exhaust gases</li><li>Protection from the elements if not weatherproof</li><li>Consideration of noise levels</li></ul><h3>Special Provisions for Residential Installations</h3><p><strong>Residential Optional Standby Systems (702.4(B)):</strong> For one- and two-family dwellings, optional standby systems are commonly used to provide backup power during outages. Special provisions for these systems include:</p><ul><li>Requirements for transfer equipment to prevent backfeed to utility lines</li><li>Appropriate configuration of neutral conductors</li><li>Consideration of load management to prevent generator overload</li></ul><p><strong>Outdoor Installation (702.12(B)(4)):</strong> For residential installations, outdoor generators must typically be placed a minimum distance from windows, doors, and ventilation openings to prevent exhaust gases from entering the dwelling. The specific distances vary, but generally require:</p><ul><li>At least 5 feet from doors, windows, and fresh air intakes</li><li>Away from areas where exhaust gases could accumulate</li><li>In accordance with manufacturer's instructions and local codes</li></ul><p><strong>Transfer Switches (702.5):</strong> For residential applications, transfer switches are typically installed near the main service panel and connect to specific branch circuits that will receive backup power. These can be either:</p><ul><li>Manual transfer switches that require physical intervention to switch power sources</li><li>Automatic transfer switches that detect utility outages and switch to generator power automatically</li></ul><h3>Interconnection with Other Systems</h3><p><strong>Utility-Interactive Systems (702.12(B)(5)):</strong> Optional standby systems can be interconnected with utility-supplied power under specific conditions. In such cases, the system must:</p><ul><li>Comply with Article 705 requirements for interconnected electric power production sources</li><li>Have appropriate equipment to prevent backfeeding utility lines during outages</li><li>Meet utility company requirements for interconnection</li></ul><p><strong>Operational Considerations (702.6):</strong> Transfer equipment must be designed and installed to prevent the inadvertent interconnection of normal and alternate power sources. Specific operational requirements depend on whether manual or automatic transfer is used.</p><h3>Testing and Maintenance</h3><p><strong>Testing (702.6):</strong> Although Article 702 does not mandate specific testing requirements (unlike Articles 700 and 701), regular testing of optional standby systems is recommended to ensure proper operation when needed. This typically includes:</p><ul><li>Regular exercising of generators (often weekly or monthly)</li><li>Testing transfer equipment operation</li><li>Ensuring fuel supplies are adequate and properly maintained</li><li>Checking battery systems and charging systems</li></ul><p><strong>Maintenance (702.6):</strong> Similar to testing, no specific maintenance requirements are mandated by Article 702. However, following manufacturer recommendations for maintenance is essential for system reliability. This often includes:</p><ul><li>Regular oil and filter changes for engine-driven generators</li><li>Inspection of air intake and exhaust systems</li><li>Battery maintenance</li><li>Inspection of transfer equipment contacts and mechanisms</li></ul><h3>Common Compliance Issues</h3><p><strong>Common Compliance Issues:</strong> Even though optional standby systems have fewer code requirements than emergency or legally required standby systems, several issues are common in their installation:</p><ul><li>Improper transfer equipment installation, leading to potential backfeed to utility lines</li><li>Inadequate ventilation for engine-driven generators, leading to overheating or exhaust hazards</li><li>Insufficient sizing of the system for the intended load</li><li>Improper or inadequate grounding of the system</li><li>Incorrect placement of generators, particularly in relation to buildings, windows, and doors</li><li>Failure to coordinate with the local utility when required</li></ul><p>While optional standby systems are not required for life safety, proper installation and operation are still essential for safety and reliability. Understanding and correctly applying Article 702 helps ensure these systems function as intended during power outages and do not create hazards for building occupants or utility workers.</p>"""
+    }
+    
+    # Check if article exists
+    existing_article = NECArticle.query.filter_by(
+        article_number=article_data['article_number']
+    ).first()
+    
+    if existing_article:
+        # Update existing article
+        existing_article.title = article_data['title']
+        existing_article.summary = article_data['summary']
+        existing_article.content = article_data['content']
+        print(f"Updated Article {article_data['article_number']}: {article_data['title']}")
+    else:
+        # Create new article
+        new_article = NECArticle(
+            article_number=article_data['article_number'],
+            title=article_data['title'],
+            summary=article_data['summary'],
+            content=article_data['content']
+        )
+        db.session.add(new_article)
+        print(f"Added Article {article_data['article_number']}: {article_data['title']}")
+    
+    # Commit changes
+    db.session.commit()
+    
+    return True
+
+def main():
+    """Create app context and run the update function."""
+    try:
+        app = create_app()
+        with app.app_context():
+            success = update_nec_article()
+            if success:
+                print(f"NEC article 702 update completed successfully.")
+            else:
+                print(f"NEC article 702 update failed.")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+if __name__ == "__main__":
+    main() 

@@ -1,0 +1,74 @@
+{% extends "vercel_base.html" %} {% block title %}Circuit Breaker - Electrician
+Exam Prep{% endblock %} {% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <h2>Prepare for Your Electrical License Exam</h2>
+    <p>
+      Circuit Breaker provides comprehensive study materials for electricians
+      preparing for their licensing exams.
+    </p>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature-box">
+    <h3>State Requirements</h3>
+    <p>
+      Learn about licensing requirements for all 50 states, including experience
+      needs, application processes, and exam details.
+    </p>
+    <a href="{{ url_for('states_list') }}" class="button"
+      >View State Requirements</a
+    >
+  </div>
+
+  <div class="feature-box">
+    <h3>NEC Articles</h3>
+    <p>
+      Study key National Electrical Code (NEC) articles that frequently appear
+      on licensing exams, with explanations and summaries.
+    </p>
+    <a href="{{ url_for('nec_articles_list') }}" class="button"
+      >View NEC Articles</a
+    >
+  </div>
+
+  <div class="feature-box">
+    <h3>Electrical Theory</h3>
+    <p>
+      Master fundamental electrical concepts with our comprehensive theory
+      guides covering everything from Ohm's Law to complex circuits.
+    </p>
+    <a href="{{ url_for('theory_list') }}" class="button">View Theory Topics</a>
+  </div>
+
+  <div class="feature-box">
+    <h3>Calculation Tutorials</h3>
+    <p>
+      Learn to perform critical electrical calculations that are essential for
+      passing your exam and for safe, compliant electrical work.
+    </p>
+    <a href="{{ url_for('calculations_list') }}" class="button"
+      >View Calculations</a
+    >
+  </div>
+
+  <div class="feature-box">
+    <h3>Practice Quizzes</h3>
+    <p>
+      Test your knowledge with practice quizzes covering various exam topics.
+      Get immediate feedback on your answers.
+    </p>
+    <a href="{{ url_for('quiz_launcher') }}" class="button">Take a Quiz</a>
+  </div>
+</section>
+
+<section class="disclaimer">
+  <h3>Read-Only Version</h3>
+  <p>
+    This is a read-only version of the Circuit Breaker application. Features
+    requiring login such as progress tracking are not available in this
+    deployment.
+  </p>
+</section>
+{% endblock %}

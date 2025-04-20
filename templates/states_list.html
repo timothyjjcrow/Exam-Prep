@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}State Licensing Information - Circuit
+Breaker{% endblock %} {% block content %}
+<div class="states-container">
+  <h2>State Licensing Information</h2>
+  <p class="intro-text">
+    Select a state below to view licensing requirements and exam details.
+  </p>
+
+  {% if states %}
+  <ul class="states-list">
+    {% for state in states %}
+    <li class="state-item">
+      <a
+        href="{{ url_for('state_detail', state_id=state.id) }}"
+        class="state-link"
+      >
+        <span class="state-name">{{ state.state_name }}</span>
+        {% if state.tested_nec_version %}
+        <span class="nec-version">NEC {{ state.tested_nec_version }}</span>
+        {% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="no-data">No state information is available yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

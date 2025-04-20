@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Practice Quizzes - Circuit Breaker{%
+endblock %} {% block content %}
+<div class="quiz-launcher-container">
+  <h2>Take a Practice Quiz</h2>
+
+  <p class="intro-text">
+    Select a topic below to start a practice quiz. Each quiz contains up to 10
+    questions on the selected topic.
+  </p>
+
+  {% if topics %}
+  <ul class="quiz-topics-list">
+    {% for topic in topics %}
+    <li class="quiz-topic-item">
+      <a
+        href="{{ url_for('quiz_interface', topic_name=topic) }}"
+        class="quiz-topic-link"
+      >
+        {{ topic }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="no-data">No practice quiz topics are available yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

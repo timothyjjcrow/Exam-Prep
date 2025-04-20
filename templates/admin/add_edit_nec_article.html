@@ -1,0 +1,75 @@
+{% extends "base.html" %} {% block title %} {% if is_edit %}Edit NEC Article{%
+else %}Add NEC Article{% endif %} - Circuit Breaker {% endblock %} {% block
+content %}
+<div class="form-container admin-form">
+  <h2>
+    {% if is_edit %}Edit NEC Article{% else %}Add New NEC Article{% endif %}
+  </h2>
+
+  <form
+    method="POST"
+    action="{% if is_edit %}{{ url_for('admin.edit_nec_article', article_id=article.id) }}{% else %}{{ url_for('admin.add_nec_article') }}{% endif %}"
+  >
+    <div class="form-group">
+      <label for="article_number">Article Number*</label>
+      <input
+        type="text"
+        id="article_number"
+        name="article_number"
+        required
+        placeholder="e.g., 250, 310.15(B)"
+        value="{% if is_edit %}{{ article.article_number }}{% endif %}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="title">Title*</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        required
+        placeholder="e.g., Grounding and Bonding"
+        value="{% if is_edit %}{{ article.title }}{% endif %}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content*</label>
+      <textarea
+        id="content"
+        name="content"
+        rows="15"
+        required
+        placeholder="Enter content with HTML/Markdown formatting if needed"
+      >
+{% if is_edit %}{{ article.content }}{% endif %}</textarea
+      >
+      <p class="field-help">
+        You can use basic HTML tags or Markdown formatting.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="summary">Summary</label>
+      <textarea
+        id="summary"
+        name="summary"
+        rows="5"
+        placeholder="Brief summary of the article (optional)"
+      >
+{% if is_edit %}{{ article.summary }}{% endif %}</textarea
+      >
+    </div>
+
+    <div class="form-group button-group">
+      <button type="submit" class="button primary">
+        {% if is_edit %}Update Article{% else %}Add Article{% endif %}
+      </button>
+      <a href="{{ url_for('admin.nec_articles') }}" class="button secondary"
+        >Cancel</a
+      >
+    </div>
+  </form>
+</div>
+{% endblock %}

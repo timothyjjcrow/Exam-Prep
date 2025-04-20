@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block title %}Calculation Tutorials - Circuit
+Breaker{% endblock %} {% block content %}
+<div class="content-container">
+  <h2>Calculation Tutorials</h2>
+  <p class="intro-text">
+    Learn how to perform essential electrical calculations required for your
+    licensing exam.
+  </p>
+
+  {% if tutorials %}
+  <div class="calculations-list">
+    {% for tutorial in tutorials %}
+    <div class="calculation-item">
+      <a
+        href="{{ url_for('calculation_detail', tutorial_id=tutorial.id) }}"
+        class="calculation-link"
+      >
+        <span class="calculation-title">{{ tutorial.title }}</span>
+      </a>
+      {% if tutorial.related_nec_articles %}
+      <div class="calculation-related">
+        <span class="related-label">Related NEC: </span>
+        <span class="related-articles"
+          >{{ tutorial.related_nec_articles }}</span
+        >
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-data">No calculation tutorials are available yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

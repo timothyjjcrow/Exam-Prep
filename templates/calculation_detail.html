@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %}{{ tutorial.title }} - Calculation
+Tutorials - Circuit Breaker{% endblock %} {% block content %}
+<div class="content-detail-container">
+  <div class="content-header">
+    <a href="{{ url_for('calculations_list') }}" class="back-link"
+      >← Back to Calculation Tutorials</a
+    >
+  </div>
+
+  <h2 class="content-title">{{ tutorial.title }}</h2>
+
+  {% if tutorial.related_nec_articles %}
+  <div class="related-info">
+    <h3>Related NEC Articles</h3>
+    <p>{{ tutorial.related_nec_articles }}</p>
+  </div>
+  {% endif %}
+
+  <div class="content-main">
+    <div class="content-text">{{ tutorial.content|safe }}</div>
+  </div>
+</div>
+{% endblock %}

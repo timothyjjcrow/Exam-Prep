@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block title %}My Progress - Circuit Breaker{%
+endblock %} {% block content %}
+<div class="progress-container">
+  <h2>My Progress</h2>
+
+  {% if results %}
+  <div class="progress-summary">
+    <p>
+      You have taken {{ results|length }} quiz{{ 'zes' if results|length != 1
+      else '' }}.
+    </p>
+  </div>
+
+  <div class="progress-table-container">
+    <table class="progress-table">
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th>Score</th>
+          <th>Total Questions</th>
+          <th>Percentage</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr>
+          <td>{{ result.topic }}</td>
+          <td>{{ result.score }}</td>
+          <td>{{ result.total_questions }}</td>
+          <td>
+            {{ (result.score / result.total_questions * 100)|round|int }}%
+          </td>
+          <td>{{ result.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quiz-links">
+    <a href="{{ url_for('quiz_launcher') }}" class="button"
+      >Take Another Quiz</a
+    >
+  </div>
+  {% else %}
+  <div class="no-results">
+    <p>You haven't taken any quizzes yet.</p>
+    <a href="{{ url_for('quiz_launcher') }}" class="button"
+      >Take Your First Quiz</a
+    >
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

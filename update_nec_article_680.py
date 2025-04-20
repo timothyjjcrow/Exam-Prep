@@ -1,0 +1,59 @@
+import sys
+import os
+
+# Import directly from app
+from app import create_app, db
+from models import NECArticle
+
+def update_nec_article():
+    """Update or add NEC article 680 to the database."""
+    # Article data
+    article_data = {
+        "article_number": "680",
+        "title": "Swimming Pools, Fountains, and Similar Installations",
+        "summary": "Article 680 covers the electrical requirements for swimming pools, spas, hot tubs, fountains, and similar installations. It provides specific requirements for wiring methods, equipment grounding, bonding, and protection of people from electrical hazards in these locations.",
+        "content": "<h3>Scope and Purpose</h3><p>Article 680 covers the installation of electrical wiring and equipment for swimming pools, spas, hot tubs, fountains, and similar installations. The primary purpose of this article is to prevent electric shock hazards to people in and around water installations, where the combination of water and electricity creates significant safety concerns.</p><p>The provisions apply to permanently installed pools, storable pools, therapeutic pools, spas, hot tubs, fountains, hydromassage bathtubs, and similar installations. The article recognizes that these water-filled locations present unique electrical safety challenges due to:</p><ul><li>The conductive nature of water, especially water with dissolved minerals</li><li>Wet conditions that reduce human body resistance</li><li>Direct contact between people and water</li><li>The increased severity of electric shock when a person is immersed in water</li></ul><h3>General Requirements</h3><p><strong>Receptacles (680.22):</strong> Specific requirements for receptacles around pools include:</p><ul><li>All 15 and 20 ampere, 125-volt receptacles located within 20 feet of the inside walls of pools must be GFCI protected</li><li>At least one 125-volt, 15 or 20 ampere receptacle must be located between 6 feet and 20 feet from the inside wall of a permanently installed pool</li><li>Receptacles must be at least 6 feet from the inside walls of a pool unless separated by a permanent barrier</li></ul><p><strong>Lighting (680.22(B) and 680.23):</strong> Lighting fixtures must be installed according to specific requirements:</p><ul><li>Lighting fixtures directly over the pool or within 5 feet horizontally from the inside walls must be at least 12 feet above the maximum water level</li><li>Underwater lighting must be installed in or on the walls of pools, with specific requirements for construction, installation, and grounding</li><li>Low-voltage lighting systems operating at 15 volts or less must comply with applicable requirements</li></ul><p><strong>Overhead Conductor Clearances (680.8):</strong> Overhead electrical conductors must maintain minimum clearances from pools, diving structures, observation stands, towers, or platforms:</p><ul><li>22.5 feet for utility-owned lines up to 750 volts</li><li>25 feet for conductors over 15kV</li><li>14.5 feet for service drop conductors and other conductors limited to 150 volts to ground</li></ul><h3>Equipment Grounding and Bonding</h3><p><strong>Equipment Grounding (680.6 and 680.7):</strong> All electrical equipment associated with pools must be grounded in accordance with Article 250. This includes:</p><ul><li>Underwater lighting fixtures (except those operating at 15 volts or less)</li><li>All electrical equipment located within 5 feet of the inside wall of the pool</li><li>Electrical equipment associated with the recirculating system</li><li>Junction boxes and enclosures</li><li>Transformers and power supplies</li></ul><p><strong>Equipotential Bonding (680.26):</strong> One of the most critical safety requirements in Article 680 is the equipotential bonding system, which aims to eliminate voltage gradients in the pool area. The following must be bonded together:</p><ul><li>Pool shell of conductive materials (such as concrete with rebar or metal)</li><li>Perimeter surfaces extending 3 feet horizontally beyond the inside walls of the pool</li><li>Metal fittings and parts attached to or within the pool structure</li><li>Metal parts of electrical equipment associated with the pool water circulating system</li><li>Metal conduit and metal piping within 5 feet of the inside walls of the pool</li><li>Fixed metal parts within 5 feet horizontally of the inside walls of the pool and within 12 feet vertically above the maximum water level</li></ul><p>The bonding must be accomplished using a solid copper conductor not smaller than 8 AWG. This bonding grid is designed to ensure that all metal objects around the pool maintain the same electrical potential, preventing dangerous voltage differences that could cause current flow through a person in the water.</p><h3>Specific Requirements for Different Types of Installations</h3><p><strong>Permanently Installed Swimming Pools (680.20-680.28):</strong> These are pools constructed in the ground or partially in the ground, and all pools installed inside buildings, regardless of dimension. Key requirements include:</p><ul><li>Specific wiring methods for feeders (generally in rigid metal conduit, intermediate metal conduit, rigid PVC conduit, or reinforced thermosetting resin conduit)</li><li>Junction boxes and enclosures for underwater fixtures must meet specific requirements and be accessible without entering the water</li><li>Underwater lighting fixtures have specific construction and installation requirements</li></ul><p><strong>Storable Swimming Pools (680.30-680.32):</strong> These are pools with a maximum dimension of 18 feet and a maximum wall height of 42 inches, designed to be readily disassembled and reassembled. Requirements include:</p><ul><li>No receptacles within 6 feet of the pool</li><li>Lighting fixtures not permitted less than 10 feet horizontally from the pool unless they're GFCI-protected</li><li>Pumps must be double-insulated or have a grounding-type attachment plug</li></ul><p><strong>Spas and Hot Tubs (680.40-680.44):</strong> Indoor and outdoor installations have specific requirements:</p><ul><li>GFCI protection for all electrical equipment associated with the circulation system</li><li>Disconnecting means must be at least 5 feet from the spa or hot tub</li><li>Special requirements for underwater audio equipment</li><li>Bonding similar to swimming pools</li></ul><p><strong>Fountains (680.50-680.58):</strong> Specific requirements include:</p><ul><li>GFCI protection for fountain equipment operating at more than 15 volts</li><li>Junction boxes and other enclosures in contact with the water must be listed for the purpose</li><li>Maximum voltage limitations for submersible pumps</li><li>Bonding of metal parts</li></ul><p><strong>Hydromassage Bathtubs (680.70-680.74):</strong> These are typically found in residential bathrooms and have specific requirements:</p><ul><li>All 125-volt, single-phase receptacles within 6 feet of the tub must be GFCI protected</li><li>A receptacle must be located within 6 feet of the tub</li><li>Switches and dimmers for lights, appliances, etc., must be at least 5 feet away from the tub unless separated by a permanent barrier</li><li>The hydromassage bathtub motor must be accessible without damaging the building structure or finish</li></ul><h3>GFCI Protection</h3><p><strong>Ground-Fault Circuit Interrupters (680.5):</strong> GFCI protection is required for:</p><ul><li>All outlets supplying pool pump motors connected to single-phase, 120V through 240V branch circuits, rated 15A or 20A</li><li>Outlets supplying other pool-related equipment (except underwater lighting) operating at 125V through 250V, single-phase</li><li>All electrical equipment, including power-supply cords, used with storable pools</li><li>All underwater lighting fixtures operating at more than 15 volts</li><li>All electrical equipment associated with spas and hot tubs</li></ul><p>GFCI protection is essential because it detects imbalances in the electrical current as small as 4-6 milliamperes and disconnects power quickly enough to prevent serious shock hazards.</p><h3>Common Code Violations and Safety Concerns</h3><p><strong>Inadequate Bonding:</strong> Failing to bond all required metal components or using undersized bonding conductors. This can lead to voltage gradients in and around the pool, creating shock hazards.</p><p><strong>Improper GFCI Protection:</strong> Not providing GFCI protection for required outlets or using improper types of GFCI devices.</p><p><strong>Insufficient Clearances:</strong> Installing electrical equipment or conductors too close to the pool, especially overhead conductor clearances.</p><p><strong>Improper Wiring Methods:</strong> Using unapproved wiring methods in pool areas, such as NM cable (Romex) in wet locations.</p><p><strong>Access Issues:</strong> Installing equipment, junction boxes, or disconnecting means without proper accessibility for service or maintenance.</p><p><strong>Improper Underwater Lighting:</strong> Using lighting fixtures not specifically listed for underwater use, or failing to install them at the proper depth.</p><h3>Recent Developments and Best Practices</h3><p><strong>Low-Voltage Lighting Systems:</strong> Recent code revisions have clarified requirements for low-voltage lighting systems, which are becoming increasingly popular for pool areas due to their reduced shock hazard.</p><p><strong>GFCI Self-Testing:</strong> Modern GFCI devices include self-testing features that periodically verify their functionality, providing additional safety.</p><p><strong>Alternative Materials for Bonding:</strong> Some newer materials and methods for equipotential bonding have been introduced, though copper is still the most common material.</p><p><strong>Inspections and Maintenance:</strong> Regular inspection of pool electrical systems is recommended, especially after renovations or before seasonal use of outdoor pools.</p><p>Article 680 is one of the most detailed articles in the NEC, reflecting the significant electrical safety concerns associated with water installations. Electricians working on pools, spas, and similar installations must be thoroughly familiar with these requirements to ensure safe installations that prevent electrical shock hazards.</p>"
+    }
+    
+    # Check if article exists
+    existing_article = NECArticle.query.filter_by(
+        article_number=article_data['article_number']
+    ).first()
+    
+    if existing_article:
+        # Update existing article
+        existing_article.title = article_data['title']
+        existing_article.summary = article_data['summary']
+        existing_article.content = article_data['content']
+        print(f"Updated Article {article_data['article_number']}: {article_data['title']}")
+    else:
+        # Create new article
+        new_article = NECArticle(
+            article_number=article_data['article_number'],
+            title=article_data['title'],
+            summary=article_data['summary'],
+            content=article_data['content']
+        )
+        db.session.add(new_article)
+        print(f"Added Article {article_data['article_number']}: {article_data['title']}")
+    
+    # Commit changes
+    db.session.commit()
+    
+    return True
+
+def main():
+    """Create app context and run the update function."""
+    try:
+        app = create_app()
+        with app.app_context():
+            success = update_nec_article()
+            if success:
+                print(f"NEC article 680 update completed successfully.")
+            else:
+                print(f"NEC article 680 update failed.")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+if __name__ == "__main__":
+    main() 

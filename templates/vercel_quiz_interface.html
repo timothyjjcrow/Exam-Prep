@@ -1,0 +1,207 @@
+{% extends "vercel_base.html" %} {% block title %}{{ topic }} Quiz - Circuit
+Breaker{% endblock %} {% block extra_head %}
+<style>
+  .quiz-container {
+    margin-bottom: 2rem;
+  }
+  .question {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .question-text {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  .options label {
+    display: block;
+    margin: 0.5rem 0;
+    cursor: pointer;
+  }
+  .explanation {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background-color: #f8f8f8;
+    border-left: 3px solid #4caf50;
+    display: none;
+  }
+  .submit-container {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .result-container {
+    display: none;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    text-align: center;
+  }
+</style>
+{% endblock %} {% block content %}
+<h2>{{ topic }} Quiz</h2>
+
+<div class="notice-box">
+  <p>
+    <strong>Note:</strong> This is a read-only version of the site. Your quiz
+    results will not be saved.
+  </p>
+</div>
+
+<div class="quiz-container">
+  <form id="quizForm">
+    {% for question in questions %}
+    <div
+      class="question"
+      data-id="{{ question.id }}"
+      data-correct="{{ question.correct_option }}"
+    >
+      <div class="question-text">
+        Question {{ loop.index }}: {{ question.question_text }}
+      </div>
+      <div class="options">
+        <label>
+          <input type="radio" name="q{{ question.id }}" value="a" />
+          {{ question.option_a }}
+        </label>
+        <label>
+          <input type="radio" name="q{{ question.id }}" value="b" />
+          {{ question.option_b }}
+        </label>
+        <label>
+          <input type="radio" name="q{{ question.id }}" value="c" />
+          {{ question.option_c }}
+        </label>
+        <label>
+          <input type="radio" name="q{{ question.id }}" value="d" />
+          {{ question.option_d }}
+        </label>
+      </div>
+      <div class="explanation">
+        <strong>Explanation:</strong> {{ question.explanation }} {% if
+        question.nec_reference %}
+        <p><strong>NEC Reference:</strong> {{ question.nec_reference }}</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="submit-container">
+      <button type="button" id="submitQuiz" class="button">Submit Quiz</button>
+    </div>
+  </form>
+</div>
+
+<div class="result-container">
+  <h3>Quiz Results</h3>
+  <p>
+    You scored <span id="score">0</span> out of
+    <span id="totalQuestions">0</span> (<span id="percentage">0</span>%).
+  </p>
+  <button type="button" id="showExplanations" class="button">
+    Show Explanations
+  </button>
+  <p>
+    <a href="{{ url_for('quiz_launcher') }}" class="button">Try Another Quiz</a>
+  </p>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const submitQuizBtn = document.getElementById("submitQuiz");
+    const showExplanationsBtn = document.getElementById("showExplanations");
+    const quizForm = document.getElementById("quizForm");
+    const resultContainer = document.querySelector(".result-container");
+    const scoreElement = document.getElementById("score");
+    const totalQuestionsElement = document.getElementById("totalQuestions");
+    const percentageElement = document.getElementById("percentage");
+
+    // Submit quiz
+    submitQuizBtn.addEventListener("click", function () {
+      // Collect answers
+      const questions = document.querySelectorAll(".question");
+      const answers = [];
+
+      questions.forEach(function (question) {
+        const questionId = question.dataset.id;
+        const selectedOption = document.querySelector(
+          `input[name="q${questionId}"]:checked`
+        );
+
+        answers.push({
+          question_id: parseInt(questionId),
+          selected_option: selectedOption ? selectedOption.value : null,
+        });
+      });
+
+      // Send to server
+      fetch(`/submit_quiz/{{ topic }}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ answers: answers }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Display results
+          scoreElement.textContent = data.score;
+          totalQuestionsElement.textContent = data.total_questions;
+          percentageElement.textContent = data.percentage;
+
+          // Hide form, show results
+          quizForm.style.display = "none";
+          resultContainer.style.display = "block";
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert(
+            "An error occurred while submitting your quiz. Please try again."
+          );
+        });
+    });
+
+    // Show explanations
+    showExplanationsBtn.addEventListener("click", function () {
+      const questions = document.querySelectorAll(".question");
+      const explanations = document.querySelectorAll(".explanation");
+
+      explanations.forEach(function (explanation) {
+        explanation.style.display = "block";
+      });
+
+      // Highlight correct/incorrect answers
+      questions.forEach(function (question) {
+        const questionId = question.dataset.id;
+        const correctOption = question.dataset.correct;
+        const selectedOption = document.querySelector(
+          `input[name="q${questionId}"]:checked`
+        );
+
+        if (selectedOption) {
+          const selectedValue = selectedOption.value;
+          const selectedLabel = selectedOption.parentElement;
+
+          if (selectedValue === correctOption) {
+            selectedLabel.style.color = "green";
+            selectedLabel.style.fontWeight = "bold";
+          } else {
+            selectedLabel.style.color = "red";
+            selectedLabel.style.textDecoration = "line-through";
+
+            // Highlight correct answer
+            const correctLabel = question.querySelector(
+              `input[value="${correctOption}"]`
+            ).parentElement;
+            correctLabel.style.color = "green";
+            correctLabel.style.fontWeight = "bold";
+          }
+        }
+      });
+
+      this.style.display = "none";
+    });
+  });
+</script>
+{% endblock %}

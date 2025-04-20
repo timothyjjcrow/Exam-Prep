@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block title %}Electrical Theory - Circuit Breaker{%
+endblock %} {% block content %}
+<div class="content-container">
+  <h2>Electrical Theory</h2>
+  <p class="intro-text">
+    Study fundamental electrical theory concepts to build a strong foundation
+    for your electrician exam.
+  </p>
+
+  {% if topics %}
+  <div class="theory-categories">
+    {% for category, category_topics in categories.items() %}
+    <div class="theory-category">
+      <h3 class="category-title">{{ category }}</h3>
+      <div class="topics-list">
+        {% for topic in category_topics %}
+        <div class="topic-item">
+          <a
+            href="{{ url_for('theory_detail', topic_id=topic.id) }}"
+            class="topic-link"
+          >
+            {{ topic.title }}
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-data">No theory topics are available yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

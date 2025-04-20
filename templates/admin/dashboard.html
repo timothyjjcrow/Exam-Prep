@@ -1,0 +1,109 @@
+{% extends "base.html" %} {% block title %}Admin Dashboard - Circuit Breaker{%
+endblock %} {% block content %}
+<div class="admin-dashboard">
+  <h2>Admin Dashboard</h2>
+
+  <div class="admin-sections">
+    <!-- State Information Section -->
+    <div class="admin-section">
+      <h3>State Licensing Information</h3>
+      <div class="action-buttons">
+        <a href="{{ url_for('admin.add_state') }}" class="button primary"
+          >Add New State</a
+        >
+        <a href="{{ url_for('admin.dashboard') }}" class="button secondary"
+          >View All States</a
+        >
+      </div>
+    </div>
+
+    <!-- NEC Articles Section -->
+    <div class="admin-section">
+      <h3>NEC Articles</h3>
+      <div class="action-buttons">
+        <a href="{{ url_for('admin.add_nec_article') }}" class="button primary"
+          >Add New Article</a
+        >
+        <a href="{{ url_for('admin.nec_articles') }}" class="button secondary"
+          >View All Articles</a
+        >
+      </div>
+    </div>
+
+    <!-- Theory Topics Section -->
+    <div class="admin-section">
+      <h3>Electrical Theory Topics</h3>
+      <div class="action-buttons">
+        <a href="{{ url_for('admin.add_theory_topic') }}" class="button primary"
+          >Add New Topic</a
+        >
+        <a href="{{ url_for('admin.theory_topics') }}" class="button secondary"
+          >View All Topics</a
+        >
+      </div>
+    </div>
+
+    <!-- Calculation Tutorials Section -->
+    <div class="admin-section">
+      <h3>Calculation Tutorials</h3>
+      <div class="action-buttons">
+        <a
+          href="{{ url_for('admin.add_calc_tutorial') }}"
+          class="button primary"
+          >Add New Tutorial</a
+        >
+        <a href="{{ url_for('admin.calc_tutorials') }}" class="button secondary"
+          >View All Tutorials</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="states-table-container">
+    <h3>State Information</h3>
+    {% if states %}
+    <table class="states-table">
+      <thead>
+        <tr>
+          <th>State Name</th>
+          <th>License Types</th>
+          <th>NEC Version</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for state in states %}
+        <tr>
+          <td>{{ state.state_name }}</td>
+          <td>{{ state.license_types|truncate(50) }}</td>
+          <td>{{ state.tested_nec_version }}</td>
+          <td class="actions">
+            <a
+              href="{{ url_for('admin.edit_state', state_id=state.id) }}"
+              class="button small"
+              >Edit</a
+            >
+            <form
+              action="{{ url_for('admin.delete_state', state_id=state.id) }}"
+              method="POST"
+              class="inline-form"
+            >
+              <button
+                type="submit"
+                class="button small danger"
+                onclick="return confirm('Are you sure you want to delete this state?')"
+              >
+                Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">No states have been added yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
