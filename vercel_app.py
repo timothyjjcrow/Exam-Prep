@@ -20,6 +20,8 @@ def create_app():
         # Use in-memory SQLite for Vercel
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'vercel-deployment-key')
+        # Set track modifications to False to avoid warning
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         
         # Serve static files correctly in Vercel
         @app.route('/static/<path:path>')
@@ -28,6 +30,8 @@ def create_app():
     else:
         # Local configuration
         app.config.from_object('config')
+        # Set track modifications to False to avoid warning
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Initialize database with app
     db.init_app(app)

@@ -10,9 +10,13 @@ if os.environ.get('VERCEL'):
     try:
         with app.app_context():
             initialize_db(app)
+            print("Database initialized successfully")
     except Exception as e:
         print(f"Error initializing database: {str(e)}")
 
-# This is required for Vercel serverless deployment - properly formatted WSGI handler
-def handler(event, context):
-    return app(event, context) 
+# Standard WSGI handler format
+def app_handler(environ, start_response):
+    return app.wsgi_app(environ, start_response)
+
+# Vercel handler
+handler = app 
