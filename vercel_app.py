@@ -1,9 +1,15 @@
 from flask import Flask, render_template, request, jsonify, Blueprint, send_from_directory
-from models import db, StateInfo, NECArticle, TheoryTopic, CalculationTutorial, PracticeQuestion
-from markupsafe import Markup
-import random
 import os
 import tempfile
+import random
+
+# Conditionally import the proper models
+if os.environ.get('VERCEL'):
+    from vercel_models import db, StateInfo, NECArticle, TheoryTopic, CalculationTutorial, PracticeQuestion
+else:
+    from models import db, StateInfo, NECArticle, TheoryTopic, CalculationTutorial, PracticeQuestion
+
+from markupsafe import Markup
 
 def create_app():
     # Initialize Flask app

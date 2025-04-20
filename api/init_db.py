@@ -1,4 +1,4 @@
-from models import db, TheoryTopic, NECArticle, StateInfo, PracticeQuestion, CalculationTutorial
+from vercel_models import db, TheoryTopic, NECArticle, StateInfo, PracticeQuestion, CalculationTutorial
 
 def initialize_db(app):
     """Initialize the in-memory database with essential data for the read-only version"""
